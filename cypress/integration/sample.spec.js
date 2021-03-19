@@ -51,5 +51,23 @@ describe('Sample Suite', () => {
 
         // Verify Logged In state
         cy.get('#logout2').should('be.visible')
+
+        // Add Samsung galaxy s6 to cart
+        cy.get('a[href="prod.html?idp_=1"')
+            .contains('Samsung galaxy s6')
+            .click()
+
+        cy.get('[onclick="addToCart(1)"]').click()
+
+        // Ensure add to cart post finishes
+        cy.intercept('https://api.demoblaze.com/addtocart').as('addToCart')
+
+        cy.wait('@addToCart')
+
+        // Navigate to the cart and verify you have the correct type
+        cy.get('#cartur').click()
+
+        cy.contains('Samsung galaxy s6')
+
     })
 })

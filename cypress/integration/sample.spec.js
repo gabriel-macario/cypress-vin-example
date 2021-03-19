@@ -13,8 +13,12 @@ describe('Sample Suite', () => {
         // Register User
         cy.get('#signin2').click()
     
-        // Typing into input is flaky without this wait, possibly due to XHR requests messing up `type` call
-        cy.wait(500)
+        // Typing into input was flaky without waiting for below XHR quests to resolve
+        cy.intercept('https://hls.demoblaze.com/about_demo_hls_600k.m3u8').as('hls600k.m3u8')
+        cy.wait('@hls600k.m3u8')
+
+        cy.intercept('https://hls.demoblaze.com/about_demo_hls_600k00000.ts').as('hls600k.ts')
+        cy.wait('@hls600k.ts')
 
         cy.get('#sign-username', { timeout: 10000 })
           .should('be.visible')

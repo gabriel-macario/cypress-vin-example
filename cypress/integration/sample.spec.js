@@ -31,7 +31,7 @@ describe('Sample Suite', () => {
             .click()
 
         // Login as User
-        cy.get('#login2').click()
+        cy.get('#login2').click({ timeout: 10000 })
 
         cy.wait(500)
 
